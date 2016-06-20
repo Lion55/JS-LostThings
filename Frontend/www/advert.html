@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Бюро знахідок</title>
+    
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+                                
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less"/>
+    <!-- LESS JavaScript компілятор -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+</head>
+
+<body>
+<div class="container-fluid main-container">
+<div class="main-panel">
+    <div class="header">
+        <span class="header-name"><span class="glyphicon glyphicon-search"></span> Бюро знахідок</span>
+    </div>
+    
+   
+    <div class="thumbnail  advert-card">
+        
+        <img class="advert-icon" src="assets/images/image.png" alt="Pizza">
+        
+        <div class="caption">
+            <h5>Назва: 
+                <span id="name"><%$('#name').val()%></span>
+            </h5>
+            <h5>Місце: 
+                <span id="address"><%$('#address').val()%></span>
+            </h5>
+            <h5>Дата: 
+                <span id="date"><%$('#date').val()%></span>
+            </h5>
+        </div> 
+        <button type="button" class="btn" id="main-page-btn">Назад</button>
+    </div>
+    
+    
+</div>
+</div>
+<!-- jQuery JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+<!--Bootsrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!--Own JavaScript -->
+<script type="text/javascript" src="assets/js/main.js"></script>
+</body>
+</html>

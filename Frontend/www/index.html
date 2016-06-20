@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Бюро знахідок</title>
+    
+    <!-- Bootsrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+                                
+    <!-- LESS основний файл -->
+    <link rel="stylesheet/less" type="text/css" href="assets/less/main.less"/>
+    <!-- LESS JavaScript компілятор -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+</head>
+
+<body>
+<div class="container-fluid main-container">
+<div class="main-panel">
+    <div class="header">
+        <span class="header-name"><span class="glyphicon glyphicon-search"></span> Бюро знахідок</span>
+    </div>
+    
+    <div class="nav navbar-nav nav-types navbar">
+        <li><button type="button" class="btn btn-danger" id="lost"><span class="glyphicon glyphicon-zoom-out"></span> Загубив</button></li>
+        <li><button type="button" class="btn btn-success" id="find"><span class="glyphicon glyphicon-zoom-in"></span> Знайшов</button></li>
+    </div>
+    
+    <div class="row">
+        <div class="row" id="advert_list">
+                
+        </div>
+    </div>
+    
+</div>
+    
+<button type="button" class="btn" id="add-button" data-toggle="modal" data-target="#addAdvert"><span class="glyphicon glyphicon-plus"></span></button>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</div>
+    
+    <div id="addAdvert" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Додати оголошення</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="advert-form">
+                        <form class="form-horizontal" id="fill-in-form" role="form" method="post">
+                            
+                            <div class="form-group category-form">
+                                <label class="col-sm-2 control-label">Категорія</label>
+                                <div class="col-sm-10">
+                                    <select name="category" id="category" class="form-control">
+                                        <option value="Загубив">Загубив</option>
+                                        <option value="Знайшов">Знайшов</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group name-form">
+                                <div class="status">
+                                    <label class="col-sm-2 control-label">Назва</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="name" placeholder="Ім'я або назва">
+                                        <span class="help-block hide">Введіть назву</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group description-form">
+                                <label class="col-sm-2 control-label">Опис</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="description" placeholder="Опис">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group address-form">
+                                <div class="status">
+                                    <label class="col-sm-2 control-label">Місце</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="address" placeholder="Місце">
+                                        <span class="help-block hide">Введіть місце</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group date-form">
+                                <div class="status">
+                                    <label class="col-sm-2 control-label">Дата</label>
+                                    <div class="col-sm-10">
+                                        <div class='input-group date' id='datetimepicker'>
+                                            <input type='text' class="form-control" id = "date" placeholder="01/01/2016">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <span class="help-block hide">Введіть дату</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-form">Контактні дані</div>
+                            
+                            <div class="form-group person-name-form">
+                                <div class="status">
+                                    <label class="col-sm-2 control-label">Ім'я</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="personName" placeholder="Ім'я Прізвище">
+                                            <span class="help-block hide">Введіть тільки власне ім’я, без цифр</span>
+                                        </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group number-form">
+                                <div class="status">
+                                    <label class="col-sm-2 control-label">Номер</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="number" placeholder="+380994010999">
+                                        <span class="help-block hide">Введіть номер телефону у форматі +380</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div>
+                    
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn" type="button" id="advert-add-btn" data-dismiss="modal">Додати</button>
+                </div>
+            </div>
+        </div>    
+    </div>
+  
+    
+<!-- jQuery JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+<!--Bootsrap JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!--Own JavaScript -->
+<script type="text/javascript" src="assets/js/main.js"></script>
+</body>
+</html>
