@@ -15,33 +15,49 @@
 
 <body>
 <div class="container-fluid main-container">
-<div class="main-panel">
+<div class="main-panel-details">
     <div class="header">
         <span class="header-name"><span class="glyphicon glyphicon-search"></span> Бюро знахідок</span>
     </div>
     
    
-    <div class="thumbnail  advert-card">
+    <div class="advert-card-details">
         
-        <img class="advert-icon" src="assets/images/image.png" alt="Pizza">
+        <img class="advert-icon-details" src="assets/images/image.png" alt="Pizza">
         
         <div class="caption">
+            <h5>Категорія: 
+                <span class="category-details"><%$('#category').val()%></span>
+            </h5>
             <h5>Назва: 
-                <span id="name"><%$('#name').val()%></span>
+                <span class="name-details"><%$('#name').val()%></span>
+            </h5>
+            <h5>Опис: 
+                <span class="description-details"><%$('#description').val()%></span>
             </h5>
             <h5>Місце: 
-                <span id="address"><%$('#address').val()%></span>
+                <span class="address"><%$('#address').val()%></span>
             </h5>
             <h5>Дата: 
-                <span id="date"><%$('#date').val()%></span>
+                <span class="date"><%$('#date').val()%></span>
+            </h5>
+            <h4 class="h4-details">Контактні дані</h4>
+            <h5>Ім'я: 
+                <span class="personName-details"><%$('#personName').val()%></span>
+            </h5>
+            <h5>Номер: 
+                <span class="number-details"><%$('#number').val()%></span>
             </h5>
         </div> 
-        <button type="button" class="btn" id="main-page-btn">Назад</button>
+        <button type="button" class="btn" id="btn-main-page">Назад</button>
     </div>
     
-    
+    <div id="googleMapAdvert"></div>
+                
 </div>
 </div>
+        
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAmquOWC5A4Pks4gVESG_rp5a9NhTTb3aE"></script>            
 <!-- jQuery JavaScript -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
 

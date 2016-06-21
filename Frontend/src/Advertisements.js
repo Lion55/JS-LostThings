@@ -6,7 +6,7 @@ function showAdvert(){
     var html_code = Templates.Advertisement_OneItem();
     var $node = $(html_code);
     
-    $node.find(".advert-details-btn").click(function(){
+    $node.find(".btn-advert-details").click(function(){
         window.location = 'advert.html';
     });
     $advert_list.append($node);

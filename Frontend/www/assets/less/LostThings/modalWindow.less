@@ -1,3 +1,7 @@
+#addAdvert .modal-dialog{
+
+width: 70%;
+    
 .modal-header{
     background-color: @mainColor;
     border-top-left-radius: 5px;
@@ -10,14 +14,30 @@
     }
 }
 
-.contact-form{
-    margin-bottom: 15px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-left: 45%;
+.modal-body{
+
+    .advert-form{
+        width: 40%;
+        float: left;
+        margin-right: 3%;
+    }
+    
+    .contact-form{
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-left: 45%;
+    }
+    
+    #googleMap {
+    height:400px;
+    width:500px;
+  }
 }
 
-#advert-add-btn{
+#btn-advert-add{
     background-color: @mainColor;
     color: white;
+}
+    
 }

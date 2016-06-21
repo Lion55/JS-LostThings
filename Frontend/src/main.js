@@ -1,11 +1,13 @@
 $(function(){
     var Advertisements = require('./Advertisements');
     
-    $('#advert-add-btn').click(function(){
+    require('./googleMap');
+    
+    $('#btn-advert-add').click(function(){
         Advertisements.showAdvert();
     });
     
-    $('#main-page-btn').click(function(){
+    $('#btn-main-page').click(function(){
         window.location ='index.html';
     });
 });

@@ -7,7 +7,7 @@ function showAdvert(){
     var html_code = Templates.Advertisement_OneItem();
     var $node = $(html_code);
     
-    $node.find(".advert-details-btn").click(function(){
+    $node.find(".btn-advert-details").click(function(){
         window.location = 'advert.html';
     });
     $advert_list.append($node);
@@ -19,21 +19,164 @@ exports.showAdvert = showAdvert;
 var ejs = require('ejs');
 
 
-exports.Advertisement_OneItem = ejs.compile("<div class=\"col-sm-6 col-md-4\">\n    <div class=\"thumbnail  advert-card\">\n        <img class=\"advert-icon\" src=\"../www/assets/images/image.png\" alt=\"Advertisement\">\n\n        <div class=\"caption\">\n            <h5>Назва: \n                <span id=\"name\"><%$('#name').val()%></span>\n            </h5>\n            <h5>Місце: \n                <span id=\"address\"><%$('#address').val()%></span>\n            </h5>\n            <h5>Дата: \n                <span id=\"date\"><%$('#date').val()%></span>\n            </h5>\n        </div> \n        <button type=\"button\" class=\"btn advert-details-btn\">Детальніше</button>\n    </div>\n</div>");
+exports.Advertisement_OneItem = ejs.compile("<div class=\"col-sm-6 col-md-4\">\n    <div class=\"thumbnail  advert-card\">\n        <img class=\"icon-advert-card\" src=\"../www/assets/images/image.png\" alt=\"Advertisement\">\n\n        <div class=\"caption\">\n            <h5>Назва: \n                <span class=\"name-advert-card\"><%$('#name').val()%></span>\n            </h5>\n            <h5>Місце: \n                <span class=\"address-advert-card\"><%$('#address').val()%></span>\n            </h5>\n            <h5>Дата: \n                <span class=\"date-advert-card\"><%$('#date').val()%></span>\n            </h5>\n        </div> \n        <button type=\"button\" class=\"btn btn-advert-details\">Детальніше</button>\n    </div>\n</div>");
 
-},{"ejs":4}],3:[function(require,module,exports){
+},{"ejs":5}],3:[function(require,module,exports){
+$(function () {
+    
+   
+    function initialize() {
+        var mapProp = {
+            center: new google.maps.LatLng(50.464379, 30.519131), 
+            zoom: 13
+        };
+        var html_element = document.getElementById("googleMap");
+        var map = new google.maps.Map(html_element, mapProp);
+
+        var point = new google.maps.LatLng(50.464379, 30.519131);
+        var marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            icon: "http://png.clipart.me/previews/8b4/map-pointer-icon-psd-45634.jpg"
+        });
+
+        var coordinates;
+        var marker_home;
+        var counter = 0;
+
+        google.maps.event.addListener(map, 'click', function (me) {
+            if (counter > 0) {
+                marker_home.setMap(null);
+            }
+            counter++;
+            coordinates = me.latLng;
+            marker_home = new google.maps.Marker({
+                position: coordinates,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                icon: "http://png.clipart.me/previews/8b4/map-pointer-icon-psd-45634.jpg"
+            });
+            calculateRoute(point, coordinates, function () {
+                console.log(this);
+            });
+        });
+
+        function geocodeLatLng(latlng, callback) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'location': latlng}, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK && results[1]) {
+                    var address = results[1].formatted_address;
+                    callback(null, address);
+                } else {
+                    callback(new Error("Can't find adress"));
+                }
+            });
+        }
+
+        var addressForm = $(".address-form");
+
+        google.maps.event.addListener(map, 'click', function (me) {
+            coordinates = me.latLng;
+            geocodeLatLng(coordinates, function (err, address) {
+                if (!err) {
+                    console.log(address);
+                    $('#order-address').text(address);
+                    $("#address").val(address);
+                    addressForm.find(".has-error").attr("class", "status");
+                    addressForm.find(".status").attr("class", "has-success");
+                } else {
+                    console.log("Немає адреси")
+                }
+            })
+        });
+
+        function geocodeAddress(address, callback) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'address': address}, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                    coordinates = results[0].geometry.location;
+                    callback(null, coordinates);
+                    if (marker_home != null || counter > 0) {
+                        marker_home.setMap(null);
+                    }
+                    $('#order-address').val(address);
+                    marker_home = new google.maps.Marker({
+                        position: coordinates,
+                        map: map,
+                        animation: google.maps.Animation.DROP,
+                        icon: "assets/images/home-icon.png"
+                    });
+                    calculateRoute(point, coordinates, function () {
+                        console.log(this);
+                    });
+                } else {
+                    callback(new Error("Can not find the adress"));
+                }
+            });
+        }
+
+        $("#address").focusout(function () {
+            var address = $("#address").val();
+            geocodeAddress($(this).val(), function (err) {
+			if (!err) {
+				addressForm.find(".has-error").attr("class", "status");
+                addressForm.find(".has-success").attr("class", "status");
+                addressForm.find(".help-block").css("display", "none");
+                addressForm.find(".status").attr("class", "has-success");
+                $('#order-address').text(address);
+                geocodeAddress(address);
+			} else {
+				addressForm.find(".has-error").attr("class", "status");
+                addressForm.find(".has-success").attr("class", "status");
+                addressForm.find(".status").attr("class", "has-error");
+                addressForm.find(".help-block").css("display", "inline");
+                $('#order-address').text("невідома");
+			}
+            });   
+        });
+
+        function calculateRoute(A_latlng, B_latlng, callback) {
+            var directionService = new google.maps.DirectionsService();
+            var directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(map);
+            directionService.route({
+                origin: A_latlng,
+                destination: B_latlng,
+                travelMode: google.maps.TravelMode["DRIVING"]
+            }, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    var leg = response.routes[0].legs[0];
+                    callback(null, {
+                        duration: leg.duration
+                    });
+                    $("#time").text(leg.duration.text);
+                    console.log(leg.duration);
+                } else {
+                    callback(new Error("Can' not find direction"));
+                }
+            });
+        }
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+});
+},{}],4:[function(require,module,exports){
 $(function(){
     var Advertisements = require('./Advertisements');
     
-    $('#advert-add-btn').click(function(){
+    require('./googleMap');
+    
+    $('#btn-advert-add').click(function(){
         Advertisements.showAdvert();
     });
     
-    $('#main-page-btn').click(function(){
+    $('#btn-main-page').click(function(){
         window.location ='index.html';
     });
 });
-},{"./Advertisements":1}],4:[function(require,module,exports){
+},{"./Advertisements":1,"./googleMap":3}],5:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -794,7 +937,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":6,"./utils":5,"fs":7,"path":8}],5:[function(require,module,exports){
+},{"../package.json":7,"./utils":6,"fs":8,"path":9}],6:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -937,7 +1080,7 @@ exports.cache = {
 };
 
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports={
   "name": "ejs",
   "description": "Embedded JavaScript templates",
@@ -1022,9 +1165,9 @@ module.exports={
   "readme": "ERROR: No README data found!"
 }
 
-},{}],7:[function(require,module,exports){
-
 },{}],8:[function(require,module,exports){
+
+},{}],9:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1252,7 +1395,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":9}],9:[function(require,module,exports){
+},{"_process":10}],10:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1373,4 +1516,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[3]);
+},{}]},{},[4]);
