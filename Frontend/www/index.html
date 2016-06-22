@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Бюро знахідок</title>
+    <title>Lost & Found</title>
     
     <!-- Bootsrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -17,27 +17,29 @@
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Lost & Found</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><span id="brand-name">Lost & Found</span></a>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">Загубив</a>
+                    <a id="lost" href="#">Загубив</a>
                 </li>
                 <li>
-                    <a href="#">Знайшов</a>
+                    <a id="found" href="#">Знайшов</a>
                 </li>
                 <li>
-                    <a href="#">Про нас</a>
+                    <a id="add-advert" href="#">Додати оголошення</a>
                 </li>
             </ul>
         </div>
-        <button type="button" class="btn btn-warning" id="btn-add-advert">Додати оголошення</button>
     </div>
-    <!-- /.container -->
 </nav>
 
 <!-- Page Content -->
@@ -50,8 +52,8 @@
         </div>
     </div>
 
-    <div id= "advert-list">
-    <!--Тут додаємо оголошення-->
+    <div id="advert_list">
+    <!--Place for advertisments-->
     </div>
     
     <!-- Pagination -->
@@ -82,7 +84,6 @@
             </ul>
         </div>
     </div>
-    <!-- /.row -->
 
     <hr>
 
@@ -93,7 +94,6 @@
                 <p>Андрійко і Остапчик. Команда. 2016</p>
             </div>
         </div>
-        <!-- /.row -->
     </footer>
 
 </div>

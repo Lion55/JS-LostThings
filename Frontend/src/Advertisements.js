@@ -1,15 +1,29 @@
 var Templates = require('./Templates');
+var Storage = require('./Storage');
 
 var $advert_list = $('#advert_list');
 
-function showAdvert(){
+function advertDetails(){
     var html_code = Templates.Advertisement_OneItem();
     var $node = $(html_code);
     
-    $node.find(".btn-advert-details").click(function(){
+    $node.find(".btn-details").click(function(){
         window.location = 'advert.html';
     });
     $advert_list.append($node);
 }
 
-exports.showAdvert = showAdvert;
+var Advert = [];
+
+function addAdvert(){
+    Advert.push({
+            advert: advert
+        });
+    update();
+}
+
+function update(){
+    $advert_list.html("");
+}
+
+exports.advertDetails = advertDetails;

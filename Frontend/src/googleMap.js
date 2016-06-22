@@ -4,18 +4,10 @@ $(function () {
     function initialize() {
         var mapProp = {
             center: new google.maps.LatLng(50.464379, 30.519131), 
-            zoom: 13
+            zoom: 11
         };
         var html_element = document.getElementById("googleMap");
         var map = new google.maps.Map(html_element, mapProp);
-
-        var point = new google.maps.LatLng(50.464379, 30.519131);
-        var marker = new google.maps.Marker({
-            position: point,
-            map: map,
-            animation: google.maps.Animation.DROP,
-            icon: "http://png.clipart.me/previews/8b4/map-pointer-icon-psd-45634.jpg"
-        });
 
         var coordinates;
         var marker_home;
@@ -31,10 +23,6 @@ $(function () {
                 position: coordinates,
                 map: map,
                 animation: google.maps.Animation.DROP,
-                icon: "http://png.clipart.me/previews/8b4/map-pointer-icon-psd-45634.jpg"
-            });
-            calculateRoute(point, coordinates, function () {
-                console.log(this);
             });
         });
 
@@ -76,12 +64,10 @@ $(function () {
                     if (marker_home != null || counter > 0) {
                         marker_home.setMap(null);
                     }
-                    $('#order-address').val(address);
                     marker_home = new google.maps.Marker({
                         position: coordinates,
                         map: map,
                         animation: google.maps.Animation.DROP,
-                        icon: "assets/images/home-icon.png"
                     });
                     calculateRoute(point, coordinates, function () {
                         console.log(this);
@@ -111,28 +97,6 @@ $(function () {
 			}
             });   
         });
-
-        function calculateRoute(A_latlng, B_latlng, callback) {
-            var directionService = new google.maps.DirectionsService();
-            var directionsDisplay = new google.maps.DirectionsRenderer();
-            directionsDisplay.setMap(map);
-            directionService.route({
-                origin: A_latlng,
-                destination: B_latlng,
-                travelMode: google.maps.TravelMode["DRIVING"]
-            }, function (response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    var leg = response.routes[0].legs[0];
-                    callback(null, {
-                        duration: leg.duration
-                    });
-                    $("#time").text(leg.duration.text);
-                    console.log(leg.duration);
-                } else {
-                    callback(new Error("Can' not find direction"));
-                }
-            });
-        }
     }
 
     google.maps.event.addDomListener(window, 'load', initialize);
