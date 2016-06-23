@@ -15,8 +15,8 @@ function addAdvert(advert){
 
 function update(){
     $advert_list.html("");
-    function addOneItem(item){
-        var html_code = Templates.Advertisement_OneItem(item);
+    function addOneItem(advert){
+        var html_code = Templates.Advertisement_OneItem(advert);
         var $node = $(html_code);
         $node.find(".btn-details").click(function(){
             window.location = 'advert.html';
@@ -55,8 +55,8 @@ function filter(filter){
        }
     });
     $advert_list.html("");
-    function addOneItem(item){
-        var html_code = Templates.Advertisement_OneItem(item);
+    function addOneItem(advert){
+        var html_code = Templates.Advertisement_OneItem(advert);
         var $node = $(html_code);
         $node.find(".btn-details").click(function(){
             window.location = 'advert.html';
@@ -73,11 +73,6 @@ function filter(filter){
     advert_shown.forEach(addOneItem); 
 }
 
-var AdvertFilter = {
-    Found: "Знайшов",
-    Lost: "Загубив"
-};
-exports.AdvertFilter = AdvertFilter;
 exports.filter = filter;
 exports.addAdvert = addAdvert;
 exports.update = update;
@@ -97,7 +92,7 @@ exports.set = function (key, value) {
 var ejs = require('ejs');
 
 
-exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"assets/images/image.png\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
+exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-5\">\n            <img class=\"img-responsive\" src=\"assets/images/image.png\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
 
 },{"ejs":8}],4:[function(require,module,exports){
 $(function () {
@@ -245,6 +240,7 @@ $(function(){
     require('./googleMap');
     require('./googleMapAdvert');
     
+    
     Advertisements.initialiseAdvert();
     
     $('#btn-add-advert').click(function(){
@@ -274,14 +270,12 @@ $(function(){
     });
     
     $("#lost").click(function(){
-        var filter = Advertisements.AdvertFilter.Lost;
-        Advertisements.filter(filter);
+        Advertisements.filter("Загубив");
         $(".page-header").text("Втрати");
     });
     
     $("#found").click(function(){
-        var filter = Advertisements.AdvertFilter.Found;
-        Advertisements.filter(filter);
+        Advertisements.filter("Знайшов");
         $(".page-header").text("Знахідки");
     });
     

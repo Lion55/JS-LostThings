@@ -15,6 +15,7 @@ $(function(){
     require('./googleMap');
     require('./googleMapAdvert');
     
+    
     Advertisements.initialiseAdvert();
     
     $('#btn-add-advert').click(function(){
@@ -44,14 +45,12 @@ $(function(){
     });
     
     $("#lost").click(function(){
-        var filter = Advertisements.AdvertFilter.Lost;
-        Advertisements.filter(filter);
+        Advertisements.filter("Загубив");
         $(".page-header").text("Втрати");
     });
     
     $("#found").click(function(){
-        var filter = Advertisements.AdvertFilter.Found;
-        Advertisements.filter(filter);
+        Advertisements.filter("Знайшов");
         $(".page-header").text("Знахідки");
     });
     

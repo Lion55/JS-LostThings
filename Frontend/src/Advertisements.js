@@ -14,8 +14,8 @@ function addAdvert(advert){
 
 function update(){
     $advert_list.html("");
-    function addOneItem(item){
-        var html_code = Templates.Advertisement_OneItem(item);
+    function addOneItem(advert){
+        var html_code = Templates.Advertisement_OneItem(advert);
         var $node = $(html_code);
         $node.find(".btn-details").click(function(){
             window.location = 'advert.html';
@@ -54,8 +54,8 @@ function filter(filter){
        }
     });
     $advert_list.html("");
-    function addOneItem(item){
-        var html_code = Templates.Advertisement_OneItem(item);
+    function addOneItem(advert){
+        var html_code = Templates.Advertisement_OneItem(advert);
         var $node = $(html_code);
         $node.find(".btn-details").click(function(){
             window.location = 'advert.html';
@@ -72,11 +72,6 @@ function filter(filter){
     advert_shown.forEach(addOneItem); 
 }
 
-var AdvertFilter = {
-    Found: "Знайшов",
-    Lost: "Загубив"
-};
-exports.AdvertFilter = AdvertFilter;
 exports.filter = filter;
 exports.addAdvert = addAdvert;
 exports.update = update;
