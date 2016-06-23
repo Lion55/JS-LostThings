@@ -25,7 +25,7 @@ $(function(){
             address: $("#address").val(),
             date: $("#date").val(),
             personName: $("#personName").val(),
-            number: $("#number").val(),
+            number: $("#number").val()
         }
         Advertisements.addAdvert(advert);
         window.location = 'index.html';
@@ -37,5 +37,15 @@ $(function(){
     
     $('#add-advert').click(function(){
         window.location = 'addAdvert.html';
+    });
+    
+    $("#lost").click(function(){
+        var filter = Advertisements.AdvertFilter.Lost;
+        Advertisements.filter(filter);
+    });
+    
+    $("#found").click(function(){
+        var filter = Advertisements.AdvertFilter.Found;
+        Advertisements.filter(filter);
     });
 });

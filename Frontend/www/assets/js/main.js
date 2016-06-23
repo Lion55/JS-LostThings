@@ -8,8 +8,8 @@ var Advert = [];
 
 function addAdvert(advert){
     Advert.push({
-            advert: advert
-        });
+        advert:advert
+    });
     update();
 }
 
@@ -30,7 +30,7 @@ function update(){
             
         });
         $advert_list.append($node);
-    }
+}
     Advert.forEach(addOneItem);
     Storage.set("advert", Advert);
 }
@@ -47,6 +47,42 @@ function getAllAdverts() {
     return Advert;
 }
 
+function filter(filter){
+    var count = 0;
+    var advert_shown = [];
+    Advert.forEach(function(advert){
+       if(advert.category == filter){
+           count++;
+           advert_shown.push(advert);
+       }
+    });
+    $advert_list.html("");
+    function addOneItem(item){
+        var html_code = Templates.Advertisement_OneItem(item);
+        var $node = $(html_code);
+        $node.find(".btn-details").click(function(){
+            window.location = 'advert.html';
+            $(".category-details").text(advert.category);
+            $(".name-details").text(advert.name);
+            $(".description-details").text(advert.description);
+            $(".address-details").text(advert.address);
+            $(".date-details").text(advert.date);
+            $(".personName-details").text(advert.personName);
+            $(".number-details").text(advert.number);
+            
+        });
+        $advert_list.append($node);
+}
+    $("#brand-name").text(count);
+    advert_shown.forEach(addOneItem); 
+}
+
+var AdvertFilter = {
+    Found: "Знайшов",
+    Lost: "Загубив"
+};
+exports.AdvertFilter = AdvertFilter;
+exports.filter = filter;
 exports.addAdvert = addAdvert;
 exports.update = update;
 exports.initialiseAdvert = initialiseAdvert;
@@ -65,7 +101,7 @@ exports.set = function (key, value) {
 var ejs = require('ejs');
 
 
-exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"http://placehold.it/700x300\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
+exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"http://placehold.it/700x300\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
 
 },{"ejs":8}],4:[function(require,module,exports){
 $(function () {
@@ -223,7 +259,7 @@ $(function(){
             address: $("#address").val(),
             date: $("#date").val(),
             personName: $("#personName").val(),
-            number: $("#number").val(),
+            number: $("#number").val()
         }
         Advertisements.addAdvert(advert);
         window.location = 'index.html';
@@ -235,6 +271,16 @@ $(function(){
     
     $('#add-advert').click(function(){
         window.location = 'addAdvert.html';
+    });
+    
+    $("#lost").click(function(){
+        var filter = Advertisements.AdvertFilter.Lost;
+        Advertisements.filter(filter);
+    });
+    
+    $("#found").click(function(){
+        var filter = Advertisements.AdvertFilter.Found;
+        Advertisements.filter(filter);
     });
 });
 },{"./Advertisements":1,"./googleMap":4,"./googleMapAdvert":5}],7:[function(require,module,exports){
