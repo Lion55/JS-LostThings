@@ -48,11 +48,9 @@ function getAllAdverts() {
 }
 
 function filter(filter){
-    var count = 0;
     var advert_shown = [];
     Advert.forEach(function(advert){
        if(advert.category == filter){
-           count++;
            advert_shown.push(advert);
        }
     });
@@ -68,12 +66,10 @@ function filter(filter){
             $(".address-details").text(advert.address);
             $(".date-details").text(advert.date);
             $(".personName-details").text(advert.personName);
-            $(".number-details").text(advert.number);
-            
+            $(".number-details").text(advert.number);            
         });
         $advert_list.append($node);
 }
-    $("#brand-name").text(count);
     advert_shown.forEach(addOneItem); 
 }
 
@@ -101,7 +97,7 @@ exports.set = function (key, value) {
 var ejs = require('ejs');
 
 
-exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"http://placehold.it/700x300\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
+exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"assets/images/image.png\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
 
 },{"ejs":8}],4:[function(require,module,exports){
 $(function () {
@@ -273,14 +269,26 @@ $(function(){
         window.location = 'addAdvert.html';
     });
     
+    $('#btn-back').click(function(){
+        window.location ='index.html';
+    });
+    
     $("#lost").click(function(){
         var filter = Advertisements.AdvertFilter.Lost;
         Advertisements.filter(filter);
+        $(".page-header").text("Втрати");
     });
     
     $("#found").click(function(){
         var filter = Advertisements.AdvertFilter.Found;
         Advertisements.filter(filter);
+        $(".page-header").text("Знахідки");
+    });
+    
+    $("#brand-name").click(function(){
+        window.location = "index.html";
+        Advertisements.initialiseAdvert();
+        $(".page-header").text("Усі");
     });
 });
 },{"./Advertisements":1,"./googleMap":4,"./googleMapAdvert":5}],7:[function(require,module,exports){

@@ -47,11 +47,9 @@ function getAllAdverts() {
 }
 
 function filter(filter){
-    var count = 0;
     var advert_shown = [];
     Advert.forEach(function(advert){
        if(advert.category == filter){
-           count++;
            advert_shown.push(advert);
        }
     });
@@ -67,12 +65,10 @@ function filter(filter){
             $(".address-details").text(advert.address);
             $(".date-details").text(advert.date);
             $(".personName-details").text(advert.personName);
-            $(".number-details").text(advert.number);
-            
+            $(".number-details").text(advert.number);            
         });
         $advert_list.append($node);
 }
-    $("#brand-name").text(count);
     advert_shown.forEach(addOneItem); 
 }
 

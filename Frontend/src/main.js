@@ -39,13 +39,25 @@ $(function(){
         window.location = 'addAdvert.html';
     });
     
+    $('#btn-back').click(function(){
+        window.location ='index.html';
+    });
+    
     $("#lost").click(function(){
         var filter = Advertisements.AdvertFilter.Lost;
         Advertisements.filter(filter);
+        $(".page-header").text("Втрати");
     });
     
     $("#found").click(function(){
         var filter = Advertisements.AdvertFilter.Found;
         Advertisements.filter(filter);
+        $(".page-header").text("Знахідки");
+    });
+    
+    $("#brand-name").click(function(){
+        window.location = "index.html";
+        Advertisements.initialiseAdvert();
+        $(".page-header").text("Усі");
     });
 });
