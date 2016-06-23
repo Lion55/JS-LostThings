@@ -4,19 +4,9 @@ var Storage = require('./Storage');
 
 var $advert_list = $('#advert_list');
 
-function advertDetails(){
-    var html_code = Templates.Advertisement_OneItem();
-    var $node = $(html_code);
-    
-    $node.find(".btn-details").click(function(){
-        window.location = 'advert.html';
-    });
-    $advert_list.append($node);
-}
-
 var Advert = [];
 
-function addAdvert(){
+function addAdvert(advert){
     Advert.push({
             advert: advert
         });
@@ -25,9 +15,42 @@ function addAdvert(){
 
 function update(){
     $advert_list.html("");
+    function addOneItem(item){
+        var html_code = Templates.Advertisement_OneItem(item);
+        var $node = $(html_code);
+        $node.find(".btn-details").click(function(){
+            window.location = 'advert.html';
+            $(".category-details").text(advert.category);
+            $(".name-details").text(advert.name);
+            $(".description-details").text(advert.description);
+            $(".address-details").text(advert.address);
+            $(".date-details").text(advert.date);
+            $(".personName-details").text(advert.personName);
+            $(".number-details").text(advert.number);
+            
+        });
+        $advert_list.append($node);
+    }
+    Advert.forEach(addOneItem);
+    Storage.set("advert", Advert);
 }
 
-exports.advertDetails = advertDetails;
+function initialiseAdvert() {
+    var savedAdvert = Storage.get("advert");
+    if (savedAdvert) {
+        Advert = savedAdvert;
+    }
+    update();
+}
+
+function getAllAdverts() {
+    return Advert;
+}
+
+exports.addAdvert = addAdvert;
+exports.update = update;
+exports.initialiseAdvert = initialiseAdvert;
+exports.getAllAdvert = getAllAdverts;
 },{"./Storage":2,"./Templates":3}],2:[function(require,module,exports){
 var basil = require('basil.js');
 basil = new basil();
@@ -42,7 +65,7 @@ exports.set = function (key, value) {
 var ejs = require('ejs');
 
 
-exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"http://placehold.it/700x300\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%('#name').val()%></h3>\n            <p class=\"description-advert-card\"><%('#description').val()%></p>\n            <button type=\"button\" class=\"btn btn-warning bnt-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
+exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-7\">\n            <img class=\"img-responsive\" src=\"http://placehold.it/700x300\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
 
 },{"ejs":8}],4:[function(require,module,exports){
 $(function () {
@@ -190,9 +213,20 @@ $(function(){
     require('./googleMap');
     require('./googleMapAdvert');
     
+    Advertisements.initialiseAdvert();
+    
     $('#btn-add-advert').click(function(){
+        var advert = {
+            category: $("#category").val(),
+            name: $("#name").val(),
+            description: $("#description").val(),
+            address: $("#address").val(),
+            date: $("#date").val(),
+            personName: $("#personName").val(),
+            number: $("#number").val(),
+        }
+        Advertisements.addAdvert(advert);
         window.location = 'index.html';
-        Advertisements.showAdvert();
     });
     
     $('#btn-main-page').click(function(){

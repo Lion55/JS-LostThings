@@ -15,9 +15,20 @@ $(function(){
     require('./googleMap');
     require('./googleMapAdvert');
     
+    Advertisements.initialiseAdvert();
+    
     $('#btn-add-advert').click(function(){
+        var advert = {
+            category: $("#category").val(),
+            name: $("#name").val(),
+            description: $("#description").val(),
+            address: $("#address").val(),
+            date: $("#date").val(),
+            personName: $("#personName").val(),
+            number: $("#number").val(),
+        }
+        Advertisements.addAdvert(advert);
         window.location = 'index.html';
-        Advertisements.showAdvert();
     });
     
     $('#btn-main-page').click(function(){
