@@ -92,7 +92,8 @@ exports.set = function (key, value) {
 var ejs = require('ejs');
 
 
-exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-5\">\n            <img class=\"img-responsive\" src=\"assets/images/image.png\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
+exports.Advertisement_OneItem = ejs.compile("    <div class=\"row\">\n        <div class=\"col-md-5\">\n            <img class=\"img-responsive\" src=\"assets/images/image.png\" alt=\"\">\n        </div>\n        <div class=\"col-md-5\">\n            <h3 class=\"name-advert-card\"><%= advert.name %></h3>\n            <p class=\"category-advert-card\"><%= advert.category %></p>\n            <p class=\"description-advert-card\"><%= advert.description %></p>\n            <button type=\"button\" class=\"btn btn-warning btn-details\" data-toggle=\"modal\" data-target=\"#advertDetails\">Детальніше<span class=\"glyphicon glyphicon-chevron-right\"></span></button>\n        </div>\n    </div>\n\n<hr>\n");
+exports.AdvertisementDetails_OneItem = ejs.compile("<img class=\"advert-icon-details\" src=\"assets/images/image.png\" alt=\"Advertisement\"> \n        <div class=\"caption\">\n            <h5>Категорія: \n                <span class=\"category-details\"><%= advert.category %></span>\n            </h5>\n            <h5>Назва: \n                <span class=\"name-details\"><%= advert.name %></span>\n            </h5>\n            <h5>Опис: \n                <span class=\"description-details\"><%= advert.description %></span>\n            </h5>\n            <h5>Місце: \n                <span class=\"address-details\"><%= advert.address %></span>\n            </h5>\n            <h5>Дата: \n                <span class=\"date-details\"><%= advert.date %></span>\n            </h5>\n            <h4 class=\"h4-details\">Контактні дані</h4>\n            <h5>Ім'я: \n                <span class=\"personName-details\"><%= advert.personName %></span>\n            </h5>\n            <h5>Номер: \n                <span class=\"number-details\"><%= advert.number %></span>\n            </h5>\n        </div>");
 
 },{"ejs":8}],4:[function(require,module,exports){
 $(function () {
@@ -166,9 +167,6 @@ $(function () {
                         map: map,
                         animation: google.maps.Animation.DROP,
                     });
-                    calculateRoute(point, coordinates, function () {
-                        console.log(this);
-                    });
                 } else {
                     callback(new Error("Can not find the adress"));
                 }
@@ -183,14 +181,12 @@ $(function () {
                 addressForm.find(".has-success").attr("class", "status");
                 addressForm.find(".help-block").css("display", "none");
                 addressForm.find(".status").attr("class", "has-success");
-                $('#order-address').text(address);
                 geocodeAddress(address);
 			} else {
 				addressForm.find(".has-error").attr("class", "status");
                 addressForm.find(".has-success").attr("class", "status");
                 addressForm.find(".status").attr("class", "has-error");
                 addressForm.find(".help-block").css("display", "inline");
-                $('#order-address').text("невідома");
 			}
             });   
         });
@@ -243,20 +239,6 @@ $(function(){
     
     Advertisements.initialiseAdvert();
     
-    $('#btn-add-advert').click(function(){
-        var advert = {
-            category: $("#category").val(),
-            name: $("#name").val(),
-            description: $("#description").val(),
-            address: $("#address").val(),
-            date: $("#date").val(),
-            personName: $("#personName").val(),
-            number: $("#number").val()
-        }
-        Advertisements.addAdvert(advert);
-        window.location = 'index.html';
-    });
-    
     $('#btn-main-page').click(function(){
         window.location ='index.html';
     });
@@ -283,6 +265,101 @@ $(function(){
         window.location = "index.html";
         Advertisements.initialiseAdvert();
         $(".page-header").text("Усі");
+    });
+    
+    var nameForm = $(".name-form");
+    var numberForm = $(".number-form");
+    var personNameForm = $(".person-name-form");
+    var addressForm = $(".address-form");
+    
+    $("#name").on('input', function (event) {
+        if ($("#name").val() == "") {
+            nameForm.find(".has-error").attr("class", "status");
+            nameForm.find(".has-success").attr("class", "status");
+            nameForm.find(".status").attr("class", "has-error");
+            nameForm.find(".help-block").css("display", "inline");
+        } else {
+            nameForm.find(".has-error").attr("class", "status");
+            nameForm.find(".has-success").attr("class", "status");
+            nameForm.find(".help-block").css("display", "none");
+            nameForm.find(".status").attr("class", "has-success");
+        }
+    });
+    
+    $("#personName").on('input', function (event) {
+        if ($("#personName").val() == "" || /[0-9]/.test($("#personName").val())) {
+            personNameForm.find(".has-error").attr("class", "status");
+            personNameForm.find(".has-success").attr("class", "status");
+            personNameForm.find(".status").attr("class", "has-error");
+            personNameForm.find(".help-block").css("display", "inline");
+        } else {
+            personNameForm.find(".has-error").attr("class", "status");
+            personNameForm.find(".has-success").attr("class", "status");
+            personNameForm.find(".help-block").css("display", "none");
+            personNameForm.find(".status").attr("class", "has-success");
+        }
+    });
+    
+    $("#number").on('input', function () {
+        if ($("#number").val() == "" || !($("#number").val().includes("+380")) || $("#number").val().length != 13) {
+            numberForm.find(".has-error").attr("class", "status");
+            numberForm.find(".has-success").attr("class", "status");
+            numberForm.find(".status").attr("class", "has-error");
+            numberForm.find(".help-block").css("display", "block");
+        } else {
+            numberForm.find(".has-error").attr("class", "status");
+            numberForm.find(".has-success").attr("class", "status");
+            numberForm.find(".help-block").css("display", "none");
+            numberForm.find(".status").attr("class", "has-success");
+        }
+    });
+    
+    $('#btn-add-advert').click(function(){
+        var error = false;
+        if($("#name").val() == "" || $("#personName").val() == "" || /[0-9]/.test($("#personName").val()) || $("#number").val() == "" || !($("#number").val().includes("+380")) || $("#number").val().length != 13){
+            error = true;
+        }
+        if (!($("#name").val())) {
+            nameForm.find(".has-error").attr("class", "status");
+            nameForm.find(".has-success").attr("class", "status");
+            nameForm.find(".status").attr("class", "has-error");
+            nameForm.find(".help-block").css("display", "inline");
+            error = true;
+        }
+        if(!($("#address").val())){
+            addressForm.find(".has-error").attr("class", "status");
+            addressForm.find(".has-success").attr("class", "status");
+            addressForm.find(".status").attr("class", "has-error");
+            addressForm.find(".help-block").css("display", "inline");
+            error = true;
+        }
+        if (!($("#number").val())) {
+            numberForm.find(".has-error").attr("class", "status");
+            numberForm.find(".has-success").attr("class", "status");
+            numberForm.find(".status").attr("class", "has-error");
+            numberForm.find(".help-block").css("display", "inline");
+            error = true;
+        }
+        if (!($("#personName").val())) {
+            personNameForm.find(".has-error").attr("class", "status");
+            personNameForm.find(".has-success").attr("class", "status");
+            personNameForm.find(".status").attr("class", "has-error");
+            personNameForm.find(".help-block").css("display", "inline");
+            error = true;
+        }
+        if(!error){
+        var advert = {
+            category: $("#category").val(),
+            name: $("#name").val(),
+            description: $("#description").val(),
+            address: $("#address").val(),
+            date: $("#date").val(),
+            personName: $("#personName").val(),
+            number: $("#number").val()
+        }
+        Advertisements.addAdvert(advert);
+        window.location = 'index.html';
+        }
     });
 });
 },{"./Advertisements":1,"./googleMap":4,"./googleMapAdvert":5}],7:[function(require,module,exports){

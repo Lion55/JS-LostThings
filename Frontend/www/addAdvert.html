@@ -50,7 +50,7 @@
                                     <label class="col-sm-2 control-label">Назва</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="name" placeholder="Ім'я або назва">
-                                        <span class="help-block hide">Введіть назву</span>
+                                        <span class="help-block">Введіть назву</span>
                                     </div>
                                 </div>
                             </div>
@@ -67,24 +67,16 @@
                                     <label class="col-sm-2 control-label">Місце</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="address" placeholder="Місце">
-                                        <span class="help-block hide">Введіть місце</span>
+                                        <span class="help-block">Введіть місце</span>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="form-group date-form">
-                                <div class="status">
                                     <label class="col-sm-2 control-label">Дата</label>
                                     <div class="col-sm-10">
-                                        <div class='input-group date' id='datetimepicker'>
-                                            <input type='text' class="form-control" id = "date" placeholder="01/01/2016">
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                        <span class="help-block hide">Введіть дату</span>
+                                            <input type='date' class="form-control" id = "date" placeholder="01-01-2016">
                                     </div>
-                                </div>
                             </div>
                             
                             <div class="contact-form">Контактні дані</div>
@@ -94,7 +86,7 @@
                                     <label class="col-sm-2 control-label">Ім'я</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="personName" placeholder="Ім'я Прізвище">
-                                            <span class="help-block hide">Введіть тільки власне ім’я, без цифр</span>
+                                            <span class="help-block">Введіть тільки власне ім’я, без цифр</span>
                                         </div>
                                 </div>
                             </div>
@@ -104,18 +96,18 @@
                                     <label class="col-sm-2 control-label">Номер</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="number" placeholder="+380994010999">
-                                        <span class="help-block hide">Введіть номер телефону у форматі +380</span>
+                                        <span class="help-block">Введіть номер телефону у форматі +380</span>
                                     </div>
                                 </div>
                             </div>
                             
+                            <button class="btn btn-warning" type="button" id="btn-add-advert">Додати</button>
+                            <button class="btn btn-warning" type="button" id="btn-back">Назад</button>
                         </form>
     </div>
     
     <div id="googleMap"></div>
     
-    <button class="btn btn-warning" type="button" id="btn-add-advert">Додати</button>
-    <button class="btn btn-warning" type="button" id="btn-back">Назад</button>
     <hr>
      <!-- Footer -->
     <footer>

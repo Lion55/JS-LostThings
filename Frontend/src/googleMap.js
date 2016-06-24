@@ -69,9 +69,6 @@ $(function () {
                         map: map,
                         animation: google.maps.Animation.DROP,
                     });
-                    calculateRoute(point, coordinates, function () {
-                        console.log(this);
-                    });
                 } else {
                     callback(new Error("Can not find the adress"));
                 }
@@ -86,14 +83,12 @@ $(function () {
                 addressForm.find(".has-success").attr("class", "status");
                 addressForm.find(".help-block").css("display", "none");
                 addressForm.find(".status").attr("class", "has-success");
-                $('#order-address').text(address);
                 geocodeAddress(address);
 			} else {
 				addressForm.find(".has-error").attr("class", "status");
                 addressForm.find(".has-success").attr("class", "status");
                 addressForm.find(".status").attr("class", "has-error");
                 addressForm.find(".help-block").css("display", "inline");
-                $('#order-address').text("невідома");
 			}
             });   
         });
